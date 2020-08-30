@@ -14,14 +14,7 @@ class ArticleController extends Controller
     // Indexx refactorizado.
     public function index() {   
         $articles = Article::applySorts( request('sort') )
-                    ->paginate( 
-                        $perpage = request('page.size') ,
-                        $columns = ['*'],
-                        $pageName ='page[number]',
-                        $page     = request('page.number')
-                    )->appends( request()->except('page.number') ); /// Adiciona esta parte a la respuesta
-
-
+                    ->jsonPaginate();
         return ArticleCollection::make ( $articles);
     }
 
