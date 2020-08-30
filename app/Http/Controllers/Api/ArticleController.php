@@ -13,7 +13,7 @@ class ArticleController extends Controller
 {
     // Indexx refactorizado.
     public function index() {   
-        $articles = Article::applySorts( request('sort') )
+        $articles = Article::applySorts()
                     ->jsonPaginate();
         return ArticleCollection::make ( $articles);
     }

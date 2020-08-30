@@ -3,15 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Support\Str;
-use App\Models\Traits\HasSorts;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
  
-
 class Article extends Model
 {
-    use HasSorts;            
-
+              
     public $allowedSorts = ['title', 'content'];
     protected $guarded = [];
 
