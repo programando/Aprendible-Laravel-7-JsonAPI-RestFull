@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SortArticleTest extends TestCase
 {
-   use RefreshDatabase;
+   //use RefreshDatabase;
     /**  @test       */
     public function it_can_sort_articles_by_title_asc()    {
         $this->withoutExceptionHandling();
