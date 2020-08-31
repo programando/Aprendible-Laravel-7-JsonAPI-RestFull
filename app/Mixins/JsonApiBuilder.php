@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
           };
         } 
   
+
         public function applySorts () {
             return function() {
                 if ( !property_exists ( $this->model, 'allowedSorts') )  {
@@ -43,6 +44,30 @@ use Illuminate\Support\Str;
                         $this->orderby($sortField, $direction  );            
                     }
                     return $this;
+            };
+        }
+
+        public function applyFilters() {
+            return function() {
+                foreach (request('filter',[]) as $filter => $value) {        //request('filter',[])  Contiene los campos de búsqueda o un array vacío
+                  
+                  // hasNamedScope = método de elocuent/model que verifica si el scope existe.
+/*                   if ( !$this->hasNamedScope ( $filter)) {
+                      abort(400, "The filter {$filter } has not been allowed.");
+                  }
+ */
+                    // Alternativa para el código anterior.  Aborat a menos que, es decir, aborta cuando el valor se afalso
+                    abort_unless (  
+                        $this->hasNamedScope ( $filter),
+                        400,
+                        "The filter {$filter } has not been allowed."
+                    );
+
+                   // buscará dentro del modelo un scope $filter ( title por ejemplo )
+                  // de esta manera para incluir nuevos filtros basta con que los agregue como scope al modelo
+                  $this->{$filter}($value) ;            
+                }
+                return $this;  //  Hace referencia al query builder
             };
         }
 

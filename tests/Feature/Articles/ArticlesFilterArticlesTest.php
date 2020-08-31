@@ -95,4 +95,16 @@ class ArticlesFilterArticlesTest extends TestCase
     }
 
 
+    /**  @test       */
+    public function cannot_filter_articles_by_unknown_filters() {
+
+         factory( Article::class)->create();
+
+        $urlName  = 'api.articles.index';
+        $url = route ( $urlName, ['filter[unknown]' => 1]);
+
+        $this->getJson($url)->assertStatus( 400 ) ; // Bad request
+
+    }
+
 }
