@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PaginateArticleTest extends TestCase
 {
-   // use RefreshDatabase;
+    use RefreshDatabase;
     /**  @test       */
     public function cant_fetch_paginated_articles() 
     {

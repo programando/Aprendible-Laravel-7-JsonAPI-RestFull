@@ -11,10 +11,20 @@ use App\Http\Resources\ArticleCollection;
 
 class ArticleController extends Controller
 {
-    // Indexx refactorizado.
-    public function index() {   
-        $articles = Article::applySorts()
-                    ->jsonPaginate();
+
+    public function index() { 
+        $query = Article::query();
+         
+        foreach (request('filter',[]) as $filter => $value) {        //request('filter',[])  Contiene los campos de búsqueda o un array vacío
+            if ( $filter === 'year'){
+                $query->whereYear('created_at', $value);
+            } elseif ( $filter === 'month'){
+                $query->whereMonth('created_at',$value);
+            } else {
+                $query->where($filter, 'LIKE', "%{$value}%");            // Adiciona un where por cada campo en el filtro
+            }
+        }
+        $articles =  $query->applySorts()->jsonPaginate();
         return ArticleCollection::make ( $articles);
     }
 
