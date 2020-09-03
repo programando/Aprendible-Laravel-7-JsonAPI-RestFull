@@ -104,7 +104,65 @@ class ArticlesFilterArticlesTest extends TestCase
         $url = route ( $urlName, ['filter[unknown]' => 1]);
 
         $this->getJson($url)->assertStatus( 400 ) ; // Bad request
+    }
+
+      /**  @test       */
+    public function can_find_articles_by_title_and_content() {
+
+         factory( Article::class)->create([
+             'title' => 'Article from Aprendible 2020',
+             'content' => 'Content'
+             ]);
+         factory( Article::class)->create([
+             'title' => 'Another Article',
+              'content' => 'Content Aprendible'
+             ]);             
+         factory( Article::class)->create([
+             'title' => 'Article from March 2021',
+              'content' => 'Content werewrewrw'
+             ]);
+
+        $urlName  = 'api.articles.index';
+        $url = route ( $urlName, ['filter[search]' => 'Aprendible']);
+
+        $this->getJson($url)
+            ->assertJsonCount(2,'data')
+            ->assertSee('Article from Aprendible 2020')
+            ->assertSee('Another Article')
+            ->assertDontSee('Article from March 2021');
 
     }
 
+
+      /**  @test       */
+    public function can_find_articles_by_title_and_content_with_multiple_term() {
+
+         factory( Article::class)->create([
+             'title' => 'Article from Aprendible 2020',
+             'content' => 'Content'
+             ]);
+         factory( Article::class)->create([
+             'title' => 'Another Article 1123',
+              'content' => 'Content Laravel'
+             ]);  
+         factory( Article::class)->create([
+             'title' => 'Another  Article',
+              'content' => 'Content Aprendible'
+             ]);              
+         factory( Article::class)->create([
+             'title' => 'Article from March 2021',
+              'content' => 'Content werewrewrw'
+             ]);
+
+        $urlName  = 'api.articles.index';
+        $url = route ( $urlName, ['filter[search]' => 'Aprendible Laravel']);
+
+        $this->getJson($url)
+            ->assertJsonCount(3,'data')
+            ->assertSee('Article from Aprendible 2020')
+            ->assertSee('Another Article 1123')
+            ->assertSee('Another Article')
+            ->assertDontSee('Article from March 2021');
+
+    }
 }
