@@ -25,7 +25,8 @@ class ApiJsonServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Creao un mixin para agupar funcionalidades, en este caso del laravel builder
-        Builder::mixin( new JsonApiBuilder);
+        // Creao un mixin para agupar funcionalidades, en este caso del laravel builder. Extiende las funcionalidades del builder
+        //JsonApiBuilder  Es una classe creada en cualquier sitio de nuestra aplicación. Para el caso, App\Mixins. y allí creo la clase.
+        Builder::mixin( new JsonApiBuilder); 
     }
 }

@@ -36,8 +36,8 @@ return [
     |   - e.g. App\JsonApi\Validators\{PostValidator, CommentValidator}
     |
     */
-    'namespace' => null,
-    'by-resource' => true,
+    'namespace' => null,    // JsonApi
+    'by-resource' => true, /// Crear una carpeta por cada recurso
 
     /*
     |--------------------------------------------------------------------------

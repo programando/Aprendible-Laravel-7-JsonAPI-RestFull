@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Builder;
  
 class Article extends Model
 {
-    public $type = 'articles';
-    public $allowedSorts = ['title', 'content'];
-    protected $guarded = [];
+    public    $type         = 'articles';
+    public    $allowedSorts = ['title', 'content'];
+    protected $guarded      = [];
 
     protected $casts = [
         'id' => 'integer',
