@@ -64,7 +64,7 @@ class ArticleController extends Controller
                         'content' => $article->content,
                     ],
                     'links' => [
-                        'self' => route('api.articles.show', $article),
+                        'self' => route('api.articles.read', $article),
                     ]
             ];
             })

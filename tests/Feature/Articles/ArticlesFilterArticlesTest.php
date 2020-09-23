@@ -4,6 +4,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\Article;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use CloudCreativity\LaravelJsonApi\Testing\MakesJsonApiRequests;
 
 class ArticlesFilterArticlesTest extends TestCase
 {
@@ -19,8 +20,8 @@ class ArticlesFilterArticlesTest extends TestCase
         
         $urlName  = 'api.articles.index';
         $url = route ( $urlName, ['filter[title]'=>'Laravel']);
-        $this->getJson($url)
-            ->assertJsonCount(1,'data')
+         
+        $this->jsonApi()->get($url)->assertJsonCount(1,'data')
             ->assertSee('Aprende laravel desde cero')
             ->assertDontSee('Other title');
 
@@ -37,7 +38,7 @@ class ArticlesFilterArticlesTest extends TestCase
         
         $urlName  = 'api.articles.index';
         $url = route ( $urlName, ['filter[content]'=>'Laravel']);
-        $this->getJson($url)
+        $this->jsonApi()->get($url)
             ->assertJsonCount(1,'data')
             ->assertSee('Aprende laravel desde cero')
             ->assertDontSee('Other content');
@@ -59,7 +60,7 @@ class ArticlesFilterArticlesTest extends TestCase
 
         $urlName  = 'api.articles.index';
         $url = route ( $urlName, ['filter[year]'=>2020]);
-        $this->getJson($url)
+        $this->jsonApi()->get($url)
             ->assertJsonCount(1,'data')
             ->assertSee('Article from 2020')
             ->assertDontSee('Article from 2021');
@@ -86,7 +87,7 @@ class ArticlesFilterArticlesTest extends TestCase
         $urlName  = 'api.articles.index';
         $url = route ( $urlName, ['filter[month]' => 1]);
 
-        $this->getJson($url)
+        $this->jsonApi()->get($url)
             ->assertJsonCount(2,'data')
             ->assertSee('Article from Febrary 2020')
             ->assertSee('Another Article from Febrary 2020')
@@ -96,15 +97,17 @@ class ArticlesFilterArticlesTest extends TestCase
 
 
     /**  @test       */
-    public function cannot_filter_articles_by_unknown_filters() {
+      public function cannot_filter_articles_by_unknown_filters() {
 
          factory( Article::class)->create();
 
         $urlName  = 'api.articles.index';
-        $url = route ( $urlName, ['filter[unknown]' => 1]);
+        //$url = route ( $urlName, ['filter[unknown]' => 1]);
+        $url = route('api.articles.index') . '?filter=unknown' ; 
+       
+        $this->jsonApi()->get($url)->assertStatus( 400 ) ; // Bad request
+    }  
 
-        $this->getJson($url)->assertStatus( 400 ) ; // Bad request
-    }
 
       /**  @test       */
     public function can_find_articles_by_title_and_content() {
@@ -125,7 +128,7 @@ class ArticlesFilterArticlesTest extends TestCase
         $urlName  = 'api.articles.index';
         $url = route ( $urlName, ['filter[search]' => 'Aprendible']);
 
-        $this->getJson($url)
+        $this->jsonApi()->get($url)
             ->assertJsonCount(2,'data')
             ->assertSee('Article from Aprendible 2020')
             ->assertSee('Another Article')
@@ -157,7 +160,7 @@ class ArticlesFilterArticlesTest extends TestCase
         $urlName  = 'api.articles.index';
         $url = route ( $urlName, ['filter[search]' => 'Aprendible Laravel']);
 
-        $this->getJson($url)
+        $this->jsonApi()->get($url)
             ->assertJsonCount(3,'data')
             ->assertSee('Article from Aprendible 2020')
             ->assertSee('Another Article 1123')

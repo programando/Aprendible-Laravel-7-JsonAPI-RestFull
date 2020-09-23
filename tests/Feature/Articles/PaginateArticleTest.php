@@ -16,7 +16,7 @@ class PaginateArticleTest extends TestCase
         $urlName  = 'api.articles.index';
         $articles = factory(Article::class)->times(10)->create();
         $url      = route( $urlName, ['page[size]'=>2, 'page[number]'=>3]);
-        $response = $this->getJson( $url );
+        $response = $this->jsonApi()->get($url);
         $response->assertJsonCount(2,'data')                /// Ver dos elementos por pagina
             ->assertDontSee( $articles[0]->title)          //  En la pagina 3 no ver el primer elemento
             ->assertDontSee( $articles[1]->title)          
@@ -35,10 +35,10 @@ class PaginateArticleTest extends TestCase
         
 
         $response->assertJsonFragment([
-            'first' => route($urlName, ['page[size]'=>2, 'page[number]'=>1]),
-            'last' => route($urlName, ['page[size]'=>2, 'page[number]'=>5]),
-            'prev' => route($urlName, ['page[size]'=>2, 'page[number]'=>2]),
-            'next' => route($urlName, ['page[size]'=>2, 'page[number]'=>4]),
+            'first' => route($urlName,[ 'page[number]'=>1, 'page[size]'=>2  ]),
+            'last' => route($urlName, [ 'page[number]'=>5, 'page[size]'=>2 ]),
+            'prev' => route($urlName, [ 'page[number]'=>2, 'page[size]'=>2 ]),
+            'next' => route($urlName, [ 'page[number]'=>4, 'page[size]'=>2 ]),
         ]);
 
 

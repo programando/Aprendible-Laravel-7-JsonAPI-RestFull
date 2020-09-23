@@ -19,7 +19,7 @@ class SortArticleTest extends TestCase
 
         $url = route('api.articles.index',['sort' => 'title']);
 
-        $this->getJson($url)->assertSeeInOrder ([
+        $this->jsonApi()->get($url)->assertSeeInOrder ([
             'A Title',
             'B Title',
             'C Title'
@@ -35,7 +35,7 @@ class SortArticleTest extends TestCase
 
         $url = route('api.articles.index',['sort' => '-title']);  // El menos (-) hace que el orden cambie a descendente
 
-        $this->getJson($url)->assertSeeInOrder ([
+        $this->jsonApi()->get($url)->assertSeeInOrder ([
             'C Title',
             'B Title',
             'A Title'
@@ -63,7 +63,7 @@ class SortArticleTest extends TestCase
   
         $url = route('api.articles.index') . '?sort=title,-content' ;  
 
-        $this->getJson($url)->assertSeeInOrder ([
+        $this->jsonApi()->get($url)->assertSeeInOrder ([
             'A Title',
             'B Title',
             'C Title'
@@ -72,7 +72,7 @@ class SortArticleTest extends TestCase
  
          $url = route('api.articles.index') . '?sort=-content,title' ;  
 
-        $this->getJson($url)->assertSeeInOrder ([
+        $this->jsonApi()->get($url)->assertSeeInOrder ([
             'X content',
             'F content',
             'E content'
@@ -86,7 +86,7 @@ class SortArticleTest extends TestCase
         factory( Article::class)->times(3)->create();
         $url = route('api.articles.index') . '?sort=unknown' ;  
         
-        $this->getJson($url)->assertStatus(400);  /// Código de estado
+        $this->jsonApi()->get($url)->assertStatus(400);  /// Código de estado
 
     }
 

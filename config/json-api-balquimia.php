@@ -66,7 +66,7 @@ return [
     | `'posts' => App\Post::class`
     */
     'resources' => [
-        'article' => \App\Models\Article::class,
+        'articles' => \App\Models\Article::class,
     ],
 
     /*
@@ -104,7 +104,7 @@ return [
     'url' => [
         'host' => null,
         'namespace' => '/api',
-        'name' => 'api',
+        'name' => 'api.',
     ],
 
     /*

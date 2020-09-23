@@ -12,9 +12,9 @@ class ListArticleTest extends TestCase
    use RefreshDatabase;
     /**  @test       */
       public function can_fetch_single_article() {
-        //$this->withoutExceptionHandling();
+        
          $article = factory( Article::class)->create();
-        $response = $this->getJson(route('api.articles.show', $article));
+        $response = $this->jsonApi()->get(route('api.articles.read', $article));
         $response->assertExactJson ([
             'data' => [
                 'type' => 'articles',
@@ -25,7 +25,7 @@ class ListArticleTest extends TestCase
                     'content' => $article->content,
                             ],
                 'links' => [
-                    'self' => route('api.articles.show', $article),
+                    'self' => route('api.articles.read', $article),
                 ]
             ],
         ]);
@@ -35,7 +35,7 @@ class ListArticleTest extends TestCase
       public function can_fetch_all_articles()    {
         $this->withoutExceptionHandling();
         $articles = factory( Article::class)->times(3)->create();
-        $response = $this->getJson(route('api.articles.index'));
+        $response = $this->jsonApi()->get(route('api.articles.index'));
      
         //Separo la validación  para que siempre haya paginación y acojerme al estandar
         $response->assertJsonFragment ([
@@ -49,7 +49,7 @@ class ListArticleTest extends TestCase
                         'content' => $articles[0]->content,
                                 ],
                     'links' => [
-                        'self' => route('api.articles.show', $articles[0]),
+                        'self' => route('api.articles.read', $articles[0]),
                     ]
                 ],
                 [
@@ -61,7 +61,7 @@ class ListArticleTest extends TestCase
                         'content' => $articles[1]->content,
                                 ],
                     'links' => [
-                        'self' => route('api.articles.show', $articles[1]),
+                        'self' => route('api.articles.read', $articles[1]),
                     ]
                 ],
                 [
@@ -73,7 +73,7 @@ class ListArticleTest extends TestCase
                         'content' => $articles[2]->content,
                                 ],
                     'links' => [
-                        'self' => route('api.articles.show', $articles[2]),
+                        'self' => route('api.articles.read', $articles[2]),
                     ]
                 ],                
 
@@ -99,7 +99,7 @@ class ListArticleTest extends TestCase
                         'content' => $articles[0]->content,
                                 ],
                     'links' => [
-                        'self' => route('api.articles.show', $articles[0]),
+                        'self' => route('api.articles.read', $articles[0]),
                     ]
                 ],
                 [
@@ -111,7 +111,7 @@ class ListArticleTest extends TestCase
                         'content' => $articles[1]->content,
                                 ],
                     'links' => [
-                        'self' => route('api.articles.show', $articles[1]),
+                        'self' => route('api.articles.read', $articles[1]),
                     ]
                 ],
                 [
@@ -123,7 +123,7 @@ class ListArticleTest extends TestCase
                         'content' => $articles[2]->content,
                                 ],
                     'links' => [
-                        'self' => route('api.articles.show', $articles[2]),
+                        'self' => route('api.articles.read', $articles[2]),
                     ]
                 ],                
 

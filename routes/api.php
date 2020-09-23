@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use CloudCreativity\LaravelJsonApi\Facades\JsonApi;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,5 +20,9 @@ use Illuminate\Support\Facades\Route;
 });
  */
 
- Route::get('articles/{article}', 'Api\ArticleController@show')->name('api.articles.show');
- Route::get('articles', 'Api\ArticleController@index')->name('api.articles.index');
+/*  Route::get('articles/{article}', 'Api\ArticleController@show')->name('api.articles.read');
+ Route::get('articles', 'Api\ArticleController@index')->name('api.articles.index'); */
+
+ JsonApi::register('balquimia')->routes( function ($api) {
+     $api->resource('articles');
+ });
